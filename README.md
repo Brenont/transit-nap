@@ -1,8 +1,29 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# TransitNap
 
-# Getting Started
+A React Native mobile application designed to help users nap during public transportation without missing their stop. TransitNap allows you to set location-based alarms that will wake you up as you approach your destination.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
+
+- **Location-based Alarms**: Set alarms that trigger based on your proximity to your destination
+- **Commute History**: View and reuse your previous destinations
+- **Simple Interface**: Clean, intuitive UI for easy navigation while traveling
+- **Multiple Screens**: Map view for location selection, home screen for quick access, and settings for customization
+
+## Tech Stack
+
+- **React Native**: Cross-platform mobile framework
+- **TypeScript**: Type-safe JavaScript
+- **React Navigation**: Tab-based navigation
+- **Linear Gradient**: Gradient backgrounds for UI elements
+- **React Native Maps** (planned): For location selection
+
+## Installation
+
+1. Clone the repository:
+```sh
+git clone https://github.com/yourusername/TransitNapRN.git
+cd TransitNapRN
+```
 
 ## Step 1: Start Metro
 
