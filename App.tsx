@@ -1,131 +1,110 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
   View,
+  Text,
+  SafeAreaView,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+import HomeHighlight from './src/components/HomeHighlight';
+import HistoryList from './src/components/HistoryList';
+import TabMenu from './src/components/TabMenu';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const [activeTab, setActiveTab] = useState('home');
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  // Sample commute history data
+  const commuteHistory = [
+    {
+      id: '1',
+      location: '275 Orient Way',
+      date: '17 April 2025',
+      time: '5:20pm',
+    },
+    {
+      id: '2',
+      location: '45 Ridge Rd',
+      date: '8 April 2025',
+      time: '9:43pm',
+    },
+    {
+      id: '3',
+      location: '275 Orient Way',
+      date: '23 March 2025',
+      time: '7:24am',
+    },
+  ];
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: isDarkMode ? Colors.darker : '#fff',
+      padding: 0,
+    },
+    content: {
+      paddingBottom: 80, // Added space for tab menu
+      paddingHorizontal: 0,
+    },
+    placeholderScreen: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingBottom: 80, // Space for tab menu
+    },
+    placeholderText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+    },
+  });
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'map':
+        return (
+          <View style={styles.placeholderScreen}>
+            <Text style={styles.placeholderText}>Map Screen</Text>
+          </View>
+        );
+      case 'home':
+        return (
+          <ScrollView
+            style={styles.container}
+            contentContainerStyle={styles.content}
+            showsVerticalScrollIndicator={false}>
+            <HomeHighlight
+              username="John"
+              onSetBusStop={() => console.log('Setting bus stop...')}
+            />
+            <HistoryList
+              items={commuteHistory}
+              onItemPress={item => console.log('Selected item:', item)}
+            />
+          </ScrollView>
+        );
+      case 'settings':
+        return (
+          <View style={styles.placeholderScreen}>
+            <Text style={styles.placeholderText}>Settings Screen</Text>
+          </View>
+        );
+      default:
+        return null;
+    }
   };
 
-  /*
-   * To keep the template simple and small we're adding padding to prevent view
-   * from rendering under the System UI.
-   * For bigger apps the recommendation is to use `react-native-safe-area-context`:
-   * https://github.com/AppAndFlow/react-native-safe-area-context
-   *
-   * You can read more about it here:
-   * https://github.com/react-native-community/discussions-and-proposals/discussions/827
-   */
-  const safePadding = '5%';
-
   return (
-    <View style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        style={backgroundStyle}>
-        <View style={{paddingRight: safePadding}}>
-          <Header/>
-        </View>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            paddingHorizontal: safePadding,
-            paddingBottom: safePadding,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      {renderContent()}
+      <TabMenu activeTab={activeTab} onTabChange={setActiveTab} />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
