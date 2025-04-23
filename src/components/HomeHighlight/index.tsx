@@ -6,11 +6,13 @@ import Button from '../Button';
 interface HomeHighlightProps {
   username?: string;
   onSetBusStop?: () => void;
+  activeAlarm?: string | null;
 }
 
 const HomeHighlight: React.FC<HomeHighlightProps> = ({
   username = 'John',
   onSetBusStop = () => {},
+  activeAlarm = null,
 }) => {
   return (
     <View style={{flex: 1}}>
@@ -27,15 +29,33 @@ const HomeHighlight: React.FC<HomeHighlightProps> = ({
 
           <View style={styles.content}>
             <Text style={styles.greeting}>Hello, {username}</Text>
-            <Text style={styles.title}>Set an alarm{'\n'}location-based</Text>
 
-            <View style={styles.buttonContainer}>
-              <Button
-                text="Set bus stop"
-                onPress={onSetBusStop}
-                showArrow={true}
-              />
-            </View>
+            {activeAlarm ? (
+              <>
+                <Text style={styles.title}>Active Alarm</Text>
+                <Text style={styles.alarmLocation}>{activeAlarm}</Text>
+                <View style={styles.buttonContainer}>
+                  <Button
+                    text="View on map"
+                    onPress={onSetBusStop}
+                    showArrow={true}
+                  />
+                </View>
+              </>
+            ) : (
+              <>
+                <Text style={styles.title}>
+                  Set an alarm{'\n'}location-based
+                </Text>
+                <View style={styles.buttonContainer}>
+                  <Button
+                    text="Set bus stop"
+                    onPress={onSetBusStop}
+                    showArrow={true}
+                  />
+                </View>
+              </>
+            )}
           </View>
         </View>
       </LinearGradient>
@@ -84,7 +104,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#222',
     lineHeight: 40,
-    marginBottom: 30,
+    marginBottom: 15,
+  },
+  alarmLocation: {
+    fontSize: 18,
+    color: '#444',
+    marginBottom: 20,
   },
   buttonContainer: {
     alignItems: 'flex-start',

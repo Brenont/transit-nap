@@ -1,0 +1,12 @@
+diff --git a/node_modules/react-native-maps/react-native-maps.podspec b/node_modules/react-native-maps/react-native-maps.podspec
+index 7f7d9b3..456e59a 100644
+--- a/node_modules/react-native-maps/react-native-maps.podspec
++++ b/node_modules/react-native-maps/react-native-maps.podspec
+@@ -55,7 +55,6 @@ Pod::Spec.new do |s|
+   # We don't need to include RCTConvert+AirMap as it's built from the 
+   # generated files.
+   s.ios.exclude_files = ['lib/ios/AirMaps/**/*.{h,m}', 'lib/ios/RCTConvert+AirMap.m']
+-  s.dependency 'react-native-maps-generated'
+   
+   if fabric_enabled
+     s.dependency "React-RCTFabric" # This is for fabric component 
